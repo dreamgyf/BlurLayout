@@ -1,0 +1,49 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+def file = new File("${rootDir.parent}/maven_publish.gradle")
+if (file.exists()) {
+    apply from: file.absolutePath
+
+    publishModule {
+        groupId 'com.dreamgyf.android.ui.widget'
+        moduleName 'BlurLayout'
+        version '1.0'
+        description '毛玻璃效果控件'
+        url 'https://github.com/dreamgyf/BlurLayout'
+    }
+}
+
+android {
+    compileSdk configs.android.compileSdk
+
+    defaultConfig {
+        minSdk configs.android.minSdk
+        targetSdk configs.android.targetSdk
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation libs.androidx.appcompat
+
+    api libs.dreamgyf.Utils
+}

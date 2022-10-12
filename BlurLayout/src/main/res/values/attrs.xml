@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BlurLayout">
+        <attr name="blurQuality" format="float" />
+        <attr name="blurRadius" format="dimension" />
+        <attr name="cornerRadius" format="dimension" />
+    </declare-styleable>
+</resources>
