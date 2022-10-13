@@ -13,6 +13,7 @@ import android.view.Choreographer.FrameCallback
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.FloatRange
+import androidx.core.graphics.scale
 import com.dreamgyf.android.utils.ui.image.bitmap.blur
 import com.dreamgyf.android.utils.ui.image.drawable.RoundRectDrawable
 import kotlin.math.max
@@ -67,10 +68,19 @@ class BlurLayout @JvmOverloads constructor(
 
     private fun getBlurBitmap(): Bitmap? {
         val view = getActivityView() ?: return null
+        val rectF = getPartRectF(view)
         alpha = 0f
-        val bitmap = getPartBitmap(view, mQuality)
+        val bitmap = getPartBitmap(view, rectF, mQuality)
         alpha = 1f
-        return bitmap.blur(context, mBlurRadius)
+        val blurBitmap = bitmap.blur(context, mBlurRadius)
+        return if (mQuality != 1f) {
+            blurBitmap.scale(
+                rectF.width().toInt(),
+                rectF.height().toInt()
+            )
+        } else {
+            blurBitmap
+        }
     }
 
     private fun getActivityView(): View? {
@@ -87,8 +97,7 @@ class BlurLayout @JvmOverloads constructor(
         return activity?.window?.decorView?.findViewById(android.R.id.content)
     }
 
-    private fun getPartBitmap(rootView: View, quality: Float): Bitmap {
-        val rectF = getPartRectF(rootView)
+    private fun getPartBitmap(rootView: View, rectF: RectF, quality: Float): Bitmap {
         val bitmap = Bitmap.createBitmap(
             (quality * rectF.width()).toInt(),
             (quality * rectF.height()).toInt(),
