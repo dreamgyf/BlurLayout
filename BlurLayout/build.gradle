@@ -3,16 +3,18 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-def file = new File("${rootDir.parent}/maven_publish.gradle")
+def file = new File("${rootDir.parent}/module_publish.gradle")
 if (file.exists()) {
     apply from: file.absolutePath
 
     publishModule {
-        groupId 'com.dreamgyf.android.ui.widget'
-        moduleName 'BlurLayout'
-        version '1.1'
-        description '毛玻璃效果控件'
-        url 'https://github.com/dreamgyf/BlurLayout'
+        library {
+            groupId = 'com.dreamgyf.android.ui.widget'
+            moduleName = 'BlurLayout'
+            version = '1.1'
+            description = '毛玻璃效果控件'
+            url = 'https://github.com/dreamgyf/BlurLayout'
+        }
     }
 }
 
